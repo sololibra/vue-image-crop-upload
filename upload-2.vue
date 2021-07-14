@@ -811,14 +811,13 @@ export default {
 					method
 				} = this,
 				fmData = new FormData();
-			fmData.append(field, data2blob(createImgUrl, mime), field + '.' + imgFormat);
-
 			// 添加其他参数
 			if (typeof params == 'object' && params) {
 				Object.keys(params).forEach((k) => {
 					fmData.append(k, params[k]);
 				})
 			}
+			fmData.append(field, data2blob(createImgUrl, mime), field + '.' + imgFormat);
 
 			// 监听进度回调
 			const uploadProgress = function(event) {
@@ -840,7 +839,7 @@ export default {
 						return;
 					}
 					if (this.status === 200 || this.status === 201) {
-						resolve(JSON.parse(this.responseText));
+						resolve(this.responseText ? JSON.parse(this.responseText) : {});
 					} else {
 						reject(this.status);
 					}
